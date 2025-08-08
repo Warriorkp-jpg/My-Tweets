@@ -5,68 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My-Site{% endblock %}</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         img {
             width: 100px;
             height: auto;
         }
-
-        {% block stylesheet %}
-
-
-        {% endblock stylesheet %}
+        {% block stylesheet %}{% endblock stylesheet %}
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'admin:index' %}">MySite</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'tweet_list' %}">Home</a>
+                        <a class="nav-link" href="{% url 'tweet_list' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'about' %}">About Me</a>
+                        <a class="nav-link" href="{% url 'about' %}">About Me</a>
                     </li>
-                   
                 </ul>
-
-                <div class="d-flex">
+                <ul class="navbar-nav">
                     {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-danger me-2" type="submit">Logout</button>
-                        </form>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger me-2" type="submit">Logout</button>
+                            </form>
+                        </li>
                     {% else %}
-                        <a class="btn btn-outline-primary me-2" href="{% url 'register' %}">Register</a>
-                        <a class="btn btn-outline-success" href="{% url 'login' %}">Login</a>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary w-100" href="{% url 'register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-success w-100" href="{% url 'login' %}">Login</a>
+                        </li>
                     {% endif %}
-                </div>
+                </ul>
             </div>
         </div>
     </nav>
-
-    <!-- Page Content -->
     <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </div>
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-U1L3FhOEtuKjO/M6A9JK1Qg5c2Bo4+GR0KWeVrOYjR8jCv1N8sc8kk7+8OYefbBi"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-  
