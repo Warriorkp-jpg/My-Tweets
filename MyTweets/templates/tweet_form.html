@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {% if form.instance.pk %} Edit Tweet {% else %} Create Tweet {% endif %}
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="col-md-6 mx-auto bg-white p-4 rounded shadow">
+    <h2 class="text-center mb-4">
+      {% if form.instance.pk %}
+        Edit Tweet
+      {% else %}
+        Create Tweet
+      {% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+          <div class="text-danger small">{{ field.errors }}</div>
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary w-100">
+        {% if form.instance.pk %}Update Tweet{% else %}Post Tweet{% endif %}
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="{% url 'tweet_list' %}" class="btn btn-outline-secondary">Exit</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

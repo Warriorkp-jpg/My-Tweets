@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+Tweet-Page{% endblock title %}
+{% block stylesheet %}
+.tweet{
+  margin-bottom:50px;
+}
+
+{% endblock stylesheet %}
+{% block content %}
+
+
+<h1 class="text-center mt-4">All Tweets</h1>
+<a class="tweet btn btn-primary mb-4" href="{% url 'tweet_create' %}">Create Tweet</a>
+
+<div class="container">
+  <form method="get" class="mb-3">
+    <label for="sort">Sort by:</label>
+    <select name="sort" id="sort" onchange="this.form.submit()">
+        <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Newest First</option>
+        <option value="oldest" {% if request.GET.sort == "oldest" %}selected{% endif %}>Oldest First</option>
+        {% comment %} <option value="title_asc" {% if request.GET.sort == "title_asc" %}selected{% endif %}>Title A–Z</option>
+        <option value="title_desc" {% if request.GET.sort == "title_desc" %}selected{% endif %}>Title Z–A</option> {% endcomment %}
+    </select>
+  </form>
+
+  <div class="row">
+    {% if tweets %}
+      {% for t in tweets %}
+      <div class="col-md-3 mb-4 d-flex align-items-stretch">
+        <div class="card w-100">
+          {% if t.image %}
+            <img src="{{ t.image.url }}" class="card-img-top" alt="Tweet image">
+          {% else %}
+            <img src="{% static 'images/default.png' %}" class="card-img-top" alt="Default image">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ t.user.username }}</h5>
+            <p class="card-text">{{ t.text }}</p>
+
+            {% if user.is_authenticated and t.user.id == user.id %}
+              <a href="{% url 'tweet_edit' t.id %}" class="btn btn-primary btn-sm">Edit</a>
+              <a href="{% url 'tweet_del' t.id %}" class="btn btn-danger btn-sm">Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>There are no tweets. Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a> to create a new tweet.</p>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock content %}
+
+
